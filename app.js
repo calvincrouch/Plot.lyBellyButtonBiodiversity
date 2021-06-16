@@ -39,7 +39,6 @@ function DrawBargraph(sampleId) {
 
 function DrawBubblechart(sampleId) {
     d3.json("data/samples.json").then((data) => {
-      // @TODO: Build a Bubble Chart Using the Sample Data
         var samples = data.samples;
         var resultArray = samples.filter(s => s.id == sampleId);
         var result = resultArray[0];
@@ -76,25 +75,17 @@ function DrawBubblechart(sampleId) {
 }
 
 function ShowMetadata(sampleId) {
-    // read the json file to get data
     d3.json("data/samples.json").then((data)=> {
         
-        // get the metadata info for the demographic panel
         var metadata = data.metadata;
 
         console.log(metadata)
 
-        // filter meta data info by id
         var result = metadata.filter(meta => meta.id.toString() === sampleId)[0];
 
-        // select demographic panel to put data
         var demographicInfo = d3.select("#sample-metadata");
         
-        // empty the demographic info panel each time before getting new id info
-        demographicInfo.html("");
-
-        // grab the necessary demographic data data for the id and append the info to the panel
-        Object.entries(result).forEach((key) => {   
+        demographicInfo.html("");        Object.entries(result).forEach((key) => {   
                 demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
         });
     });
@@ -114,13 +105,9 @@ function optionChanged(newSampleId) {
 
 function InitDashboard() {
     console.log("InitDashboard()");
-
-    // Populate the dropdown
     var selector = d3.select("#selDataset");
 
     d3.json("data/samples.json").then(data => {
-        // console.log(data);
-
         var sampleNames = data.names;
 
         sampleNames.forEach(sampleId => {
@@ -130,7 +117,6 @@ function InitDashboard() {
         });
 
         var id = sampleNames[0];
-
         DrawBargraph(id);
         DrawBubblechart(id);
         ShowMetadata(id);
